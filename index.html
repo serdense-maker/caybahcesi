@@ -1,17 +1,114 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading</title>
     <style>
-        body, html { margin:0; padding:0; width:100%; height:100%; overflow:hidden; background:#000; }
-        video { position:fixed; top:0; left:0; width:100%; height:100%; object-fit:cover; }
-        #text { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); color:white; font-size:2rem; z-index:2; }
+        * {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        body {
+            width: 100vw;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #000;
+        }
+        
+        #bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        
+        #loading-info {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+        
+        #server-name {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        #status {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        #progress {
+            width: 500px;
+            height: 30px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px auto;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        
+        #progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        #percentage {
+            font-size: 20px;
+        }
     </style>
 </head>
 <body>
-    <video id="video" autoplay loop playsinline>
+    <!-- Video otomatik sessiz oynar -->
+    <video id="bg-video" autoplay muted loop playsinline>
         <source src="video.webm" type="video/webm">
     </video>
-    <div id="text">Sunucuya Bağlanılıyor...</div>
+    
+    <div id="loading-info">
+        <h1 id="server-name">Sunucuya Bağlanılıyor...</h1>
+        <p id="status">Yükleniyor...</p>
+        <div id="progress">
+            <div id="progress-bar"></div>
+        </div>
+        <p id="percentage">0%</p>
+    </div>
+
+    <script>
+        function GameDetails(servername, serverurl, mapname, maxplayers, steamid, gamemode) {
+            document.getElementById('server-name').innerText = servername;
+            document.getElementById('status').innerText = 'Harita: ' + mapname;
+        }
+        
+        function SetStatusChanged(status) {
+            document.getElementById('status').innerText = status;
+        }
+        
+        function SetFilesNeeded(needed) {
+            document.getElementById('status').innerText = needed + " dosya indiriliyor...";
+        }
+        
+        function DownloadingFile(file) {
+            document.getElementById('status').innerText = "İndiriliyor: " + file;
+        }
+        
+        function SetFilesProgress(progress) {
+            const percentage = Math.floor(progress * 100);
+            document.getElementById('progress-bar').style.width = percentage + '%';
+            document.getElementById('percentage').innerText = percentage + '%';
+        }
+    </script>
 </body>
 </html>
