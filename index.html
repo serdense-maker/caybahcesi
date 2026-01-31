@@ -9,40 +9,9 @@
     </style>
 </head>
 <body>
-    <video id="video" muted playsinline>
+    <video id="video" autoplay loop playsinline>
         <source src="video.webm" type="video/webm">
     </video>
     <div id="text">Sunucuya Bağlanılıyor...</div>
-
-    <script>
-        const video = document.getElementById('video');
-        
-        // Video yüklenir yüklenmez otomatik başlat
-        video.addEventListener('loadeddata', () => {
-            video.play().then(() => {
-                // Video başladıktan sonra sesi aç
-                setTimeout(() => {
-                    video.muted = false;
-                    video.volume = 1.0;
-                }, 300);
-            });
-        });
-        
-        // Döngü için
-        video.addEventListener('ended', () => {
-            video.currentTime = 0;
-            video.play();
-        });
-        
-        // Sayfa yüklendiğinde 1 saniye sonra başlat
-        window.onload = () => {
-            setTimeout(() => {
-                video.play().catch(() => {
-                    // Hata olursa kullanıcı tıklamasını bekle
-                    document.body.onclick = () => video.play();
-                });
-            }, 1000);
-        };
-    </script>
 </body>
 </html>
